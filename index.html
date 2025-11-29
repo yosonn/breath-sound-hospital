@@ -65,7 +65,6 @@
             </header>
 
             <div id="view-dashboard" class="view-section active">
-                
                 <div class="stats-grid">
                     <div class="stat-card blue">
                         <div class="icon"><i class="fa-solid fa-hospital-user"></i></div>
@@ -112,7 +111,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="chart-card">
                         <div class="card-header">
                             <h3><i class="fa-solid fa-layer-group"></i> 風險等級分佈</h3>
@@ -123,7 +121,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="chart-card">
                         <div class="card-header">
                             <h3><i class="fa-solid fa-lungs"></i> 呼吸音分類統計</h3>
@@ -134,12 +131,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="chart-card feed-card">
                         <div class="card-header">
                             <h3><i class="fa-solid fa-robot"></i> 最新 AI 摘要通知</h3>
                         </div>
-                        <div class="card-body feed-list" id="ai-feed-list"></div>
+                        <div class="card-body feed-list" id="ai-feed-list">
+                            </div>
                     </div>
                 </div>
             </div>
@@ -165,7 +162,8 @@
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody id="patient-table-body"></tbody>
+                            <tbody id="patient-table-body">
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -173,134 +171,129 @@
 
             <div id="view-patient-detail" class="view-section">
                 
-                <div class="detail-top-nav">
+                <div class="detail-top-bar">
                     <button class="btn btn-outline back-btn" onclick="switchView('patient-list')">
                         <i class="fa-solid fa-arrow-left"></i> 返回列表
                     </button>
-                    <div class="patient-quick-info">
-                        <span class="info-tag"><i class="fa-solid fa-user"></i> <b id="p-name">--</b></span>
-                        <span class="info-tag"><i class="fa-solid fa-id-card"></i> <span id="p-id">--</span></span>
-                        <span class="badge badge-date" id="p-last-date">--</span>
+                    <div class="patient-status-indicator">
+                        <span id="p-detail-status-text">狀態評估中...</span>
+                        <span class="badge" id="p-detail-status-badge">Normal</span>
                     </div>
                 </div>
 
-                <div class="detail-grid-new">
+                <div class="detail-layout-new">
                     
-                    <div class="detail-main-panel">
-                        <div class="card analysis-console">
-                            <div class="card-header">
-                                <h3><i class="fa-solid fa-stethoscope"></i> AI 聽診分析控制台</h3>
-                                <div class="position-selector">
-                                    <button class="pos-btn active" data-pos="front">前胸 (Front)</button>
-                                    <button class="pos-btn" data-pos="back-l">左背 (Back L)</button>
-                                    <button class="pos-btn" data-pos="back-r">右背 (Back R)</button>
+                    <div class="detail-sidebar">
+                        <div class="card profile-card-new">
+                            <div class="card-body center-col">
+                                <div class="profile-avatar-large" id="p-avatar">王</div>
+                                <h2 id="p-name">王小明</h2>
+                                <p class="id-text" id="p-id">ID: P-2023001</p>
+                                
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <label>性別</label>
+                                        <span id="p-gender">男</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>年齡</label>
+                                        <span id="p-age">45</span>
+                                    </div>
+                                    <div class="info-item full">
+                                        <label>臨床診斷</label>
+                                        <span id="p-history">慢性支氣管炎</span>
+                                    </div>
+                                    <div class="info-item full">
+                                        <label>上次測量</label>
+                                        <span id="p-last-date">2025-11-29</span>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="card-body console-body">
-                                <div class="visualizer-container">
-                                    <div class="spectrogram-visual" id="spectrogram-ui">
-                                        <div class="freq-lines"></div>
-                                        <div class="time-marker"></div>
-                                        <div class="loading-overlay" id="audio-loading" style="display:none;">
-                                            <i class="fa-solid fa-circle-notch fa-spin"></i> 載入音軌中...
-                                        </div>
-                                    </div>
-                                    <div class="audio-player-wrapper">
-                                        <audio controls id="main-audio-player" class="full-width-audio">
-                                            <source src="" type="audio/wav">
-                                            瀏覽器不支援
-                                        </audio>
-                                    </div>
-                                </div>
+                        </div>
 
-                                <div class="ai-dashboard-row">
-                                    <div class="ai-stat-box" id="stat-normal">
-                                        <span class="label">Normal</span>
-                                        <div class="circle-chart">
-                                            <svg viewBox="0 0 36 36" class="circular-chart green">
-                                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                                <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                            </svg>
-                                            <span class="percentage">--%</span>
-                                        </div>
-                                    </div>
-                                    <div class="ai-stat-box" id="stat-wheeze">
-                                        <span class="label">Wheeze</span>
-                                        <div class="circle-chart">
-                                            <svg viewBox="0 0 36 36" class="circular-chart yellow">
-                                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                                <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                            </svg>
-                                            <span class="percentage">--%</span>
-                                        </div>
-                                    </div>
-                                    <div class="ai-stat-box" id="stat-crackles">
-                                        <span class="label">Crackles</span>
-                                        <div class="circle-chart">
-                                            <svg viewBox="0 0 36 36" class="circular-chart red">
-                                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                                <path class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                            </svg>
-                                            <span class="percentage">--%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="ai-summary-alert" id="p-ai-summary-box">
-                                    <div class="alert-icon"><i class="fa-solid fa-robot"></i></div>
-                                    <div class="alert-text">
-                                        <h4>AI 綜合建議</h4>
-                                        <p id="p-ai-summary">請選擇聽診位置以檢視詳細分析。</p>
-                                    </div>
-                                </div>
-
+                        <div class="card history-card-new">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-clock-rotate-left"></i> 近期紀錄</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="timeline-list" id="p-mini-history">
+                                    </ul>
                             </div>
                         </div>
                     </div>
 
-                    <div class="detail-side-panel">
-                        <div class="card mb-20">
-                            <div class="card-header">
-                                <h3>病患檔案</h3>
+                    <div class="detail-main">
+                        
+                        <div class="card analysis-card-new">
+                            <div class="card-header flex-between">
+                                <h3><i class="fa-solid fa-wave-square"></i> 智慧聽診分析</h3>
+                                <div class="position-selector">
+                                    <span class="pos-label">聽診位置：</span>
+                                    <div class="pos-btn-group">
+                                        <button class="pos-btn active" data-pos="trachea">氣管</button>
+                                        <button class="pos-btn" data-pos="ul">左上肺</button>
+                                        <button class="pos-btn" data-pos="ur">右上肺</button>
+                                        <button class="pos-btn" data-pos="ll">左下肺</button>
+                                        <button class="pos-btn" data-pos="lr">右下肺</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body profile-body">
-                                <div class="info-row">
-                                    <span class="label">年齡/性別</span>
-                                    <span class="val" id="p-age-gender">--</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">主訴病史</span>
-                                    <span class="val" id="p-history">--</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">風險等級</span>
-                                    <span id="p-risk-badge" class="badge">--</span>
+                            <div class="card-body analysis-content">
+                                <div class="audio-visualizer-box">
+                                    <canvas id="audioWaveform" width="800" height="120"></canvas>
+                                    
+                                    <div class="custom-audio-controls">
+                                        <audio id="mainAudioPlayer">
+                                            您的瀏覽器不支援 audio 元素
+                                        </audio>
+                                        <div class="play-status">
+                                            <i class="fa-solid fa-circle-play" id="playIcon"></i>
+                                            <span id="audioTime">00:00 / 00:15</span>
+                                        </div>
+                                        <div class="track-info">
+                                            來源檔案: <span id="currentFileName">Record_20251129_Trachea.wav</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card mb-20">
+                        <div class="ai-result-grid">
+                            <div class="card summary-card">
+                                <div class="card-header">
+                                    <h3><i class="fa-solid fa-robot"></i> AI 綜合摘要</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p class="ai-text" id="p-ai-summary">
+                                        載入中...
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="card probability-card">
+                                <div class="card-header">
+                                    <h3>特徵機率分佈</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper-small">
+                                        <canvas id="singleAnalysisChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card trend-card-new">
                             <div class="card-header">
-                                <h3>近期趨勢 (Trend)</h3>
+                                <h3><i class="fa-solid fa-chart-line"></i> 病情變化趨勢 (近 10 次)</h3>
                             </div>
                             <div class="card-body">
-                                <div class="chart-wrapper-small">
+                                <div class="chart-wrapper">
                                     <canvas id="patientTrendChart"></canvas>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>歷史檢測</h3>
-                            </div>
-                            <div class="card-body">
-                                <ul class="mini-history-list" id="p-mini-history"></ul>
-                            </div>
-                        </div>
                     </div>
-
                 </div>
             </div>
 
@@ -320,7 +313,6 @@
                              <tbody>
                                  <tr><td>10:05</td><td>王小明</td><td>Wheeze</td><td>88%</td><td><span class="badge badge-danger">危險</span></td></tr>
                                  <tr><td>09:55</td><td>李建國</td><td>Crackles</td><td>72%</td><td><span class="badge badge-danger">危險</span></td></tr>
-                                 <tr><td>09:30</td><td>張雅婷</td><td>Wheeze</td><td>65%</td><td><span class="badge badge-warning">警示</span></td></tr>
                              </tbody>
                          </table>
                     </div>
@@ -332,11 +324,9 @@
                     <div class="card-header">
                         <h3><i class="fa-solid fa-file-medical-alt"></i> 醫療大數據統計報表</h3>
                     </div>
-                    <div class="card-body" style="text-align: center; padding: 50px;">
-                        <i class="fa-solid fa-chart-pie" style="font-size: 5rem; color: #ddd; margin-bottom: 20px;"></i>
-                        <p>本月累計分析音訊：1,204 筆</p>
-                        <p>AI 診斷準確率：94.5%</p>
-                        <button class="btn btn-primary" style="margin-top: 15px;">下載完整月報表 (PDF)</button>
+                    <div class="card-body center-col" style="padding:50px;">
+                        <i class="fa-solid fa-chart-pie" style="font-size: 5rem; color: #ddd;"></i>
+                        <p style="margin-top:20px;">本月累計分析音訊：1,204 筆</p>
                     </div>
                 </div>
             </div>
