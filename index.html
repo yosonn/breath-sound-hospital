@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 呼吸音臨床決策輔助平台 - 醫療端</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-stethoscope"></i>
+                <h2>AI MedAssist</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="dashboard">
+                    <i class="fa-solid fa-chart-line"></i> <span>總覽儀表板</span>
+                </a>
+                <a href="#" class="nav-item" data-target="patient-list">
+                    <i class="fa-solid fa-users"></i> <span>病患列表</span>
+                </a>
+                <a href="#" class="nav-item" data-target="risk-monitor">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span>風險監測</span>
+                </a>
+                <a href="#" class="nav-item" data-target="analytics">
+                    <i class="fa-solid fa-file-medical-alt"></i> <span>分析統計</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i> <span>系統帳號管理</span>
+                </a>
+                <a href="#" class="nav-item logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> <span>登出系統</span>
+                </a>
+                <div class="user-profile">
+                    <div class="avatar">Dr</div>
+                    <div class="info">
+                        <span class="name">Dr. Wang</span>
+                        <span class="role">胸腔內科</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1 id="page-heading">總覽儀表板 (Dashboard)</h1>
+                    <span class="date-display" id="current-date">2025-11-29</span>
+                </div>
+                <div class="actions">
+                    <button class="icon-btn"><i class="fa-solid fa-bell"></i><span class="badge-dot"></span></button>
+                    <button class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </header>
+
+            <div id="view-dashboard" class="view-section active">
+                
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="icon"><i class="fa-solid fa-hospital-user"></i></div>
+                        <div class="info">
+                            <h3>總病患數</h3>
+                            <p class="number">128</p>
+                            <span class="trend up"><i class="fa-solid fa-arrow-trend-up"></i> +5 本週</span>
+                        </div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="icon"><i class="fa-solid fa-file-audio"></i></div>
+                        <div class="info">
+                            <h3>今日新紀錄</h3>
+                            <p class="number">24</p>
+                            <span class="sub-text">待覆核: 8</span>
+                        </div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+                        <div class="info">
+                            <h3>高風險異常</h3>
+                            <p class="number">7</p>
+                            <span class="sub-text">需優先處理</span>
+                        </div>
+                    </div>
+                    <div class="stat-card yellow">
+                        <div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="info">
+                            <h3>中度風險</h3>
+                            <p class="number">15</p>
+                            <span class="sub-text">建議追蹤</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid-layout">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-chart-area"></i> 最近 14 天異常呼吸音趨勢</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-wrapper">
+                                <canvas id="trendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-layer-group"></i> 風險等級分佈</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-wrapper">
+                                <canvas id="riskDistChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-lungs"></i> 呼吸音分類統計</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-wrapper">
+                                <canvas id="soundPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card feed-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-robot"></i> 最新 AI 摘要通知</h3>
+                        </div>
+                        <div class="card-body feed-list" id="ai-feed-list">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-patient-list" class="view-section">
+                <div class="card table-card">
+                    <div class="card-header flex-between">
+                        <h3>病患資料庫</h3>
+                        <div class="table-actions">
+                            <input type="text" placeholder="搜尋姓名或 ID..." class="search-input">
+                            <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> 新增病患</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>病患 ID</th>
+                                    <th>姓名</th>
+                                    <th>年齡 / 性別</th>
+                                    <th>上次測量時間</th>
+                                    <th>最新 AI 判讀</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patient-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-patient-detail" class="view-section">
+                <button class="btn btn-outline back-btn" onclick="switchView('patient-list')">
+                    <i class="fa-solid fa-arrow-left"></i> 返回列表
+                </button>
+
+                <div class="detail-grid">
+                    <div class="detail-col-left">
+                        <div class="card profile-card">
+                            <div class="card-header">
+                                <h3>基本資料</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="profile-header">
+                                    <div class="profile-avatar" id="p-avatar">王</div>
+                                    <div>
+                                        <h2 id="p-name">王小明</h2>
+                                        <p id="p-id">ID: P-2023001</p>
+                                    </div>
+                                </div>
+                                <div class="profile-info">
+                                    <p><strong>年齡:</strong> <span id="p-age">45</span> 歲</p>
+                                    <p><strong>病史:</strong> <span id="p-history">慢性支氣管炎, 吸菸史 10 年</span></p>
+                                    <p><strong>主治醫師:</strong> Dr. Wang</p>
+                                </div>
+                                <hr>
+                                <h4>最近 5 次測量摘要</h4>
+                                <ul class="mini-history-list" id="p-mini-history">
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-col-center">
+                        <div class="card analysis-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-wave-square"></i> 本次測量詳情</h3>
+                                <span class="badge badge-date" id="p-last-date">2025-11-29 09:30</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="audio-control-panel">
+                                    <div class="pos-toggles">
+                                        <button class="pos-btn active">前胸</button>
+                                        <button class="pos-btn">左背</button>
+                                        <button class="pos-btn">右背</button>
+                                    </div>
+                                    <audio controls class="audio-player">
+                                        <source src="" type="audio/wav">
+                                        瀏覽器不支援音訊標籤
+                                    </audio>
+                                </div>
+
+                                <div class="spectrogram-placeholder">
+                                    <div class="spec-overlay">Spectrogram Analysis Visualization</div>
+                                </div>
+
+                                <div class="ai-result-box" id="p-ai-result-box">
+                                    <div class="result-header">
+                                        <h4>AI 判讀建議</h4>
+                                        <span class="badge badge-danger" id="p-risk-badge">高風險</span>
+                                    </div>
+                                    <p class="summary-text" id="p-ai-summary">
+                                        偵測到明顯的 Crackles (爆裂音) 特徵，機率達 78%。建議安排 X 光檢查確認是否有肺炎跡象。
+                                    </p>
+                                    
+                                    <div class="chart-wrapper-small">
+                                        <canvas id="singleAnalysisChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-col-right">
+                        <div class="card trend-card">
+                            <div class="card-header">
+                                <h3><i class="fa-solid fa-chart-line"></i> 個案長期趨勢</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-wrapper">
+                                    <canvas id="patientTrendChart"></canvas>
+                                </div>
+                                <div class="stat-summary">
+                                    <div class="stat-item">
+                                        <label>平均 Wheeze</label>
+                                        <strong id="avg-wheeze">12%</strong>
+                                    </div>
+                                    <div class="stat-item">
+                                        <label>惡化頻率</label>
+                                        <strong class="text-danger">偏高</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-risk-monitor" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> 高風險病患即時監控</h3>
+                    </div>
+                    <div class="card-body">
+                         <div class="alert-banner">
+                            <i class="fa-solid fa-bell"></i> 目前有 7 位病患處於高風險狀態，建議立即查看。
+                         </div>
+                         <table class="data-table">
+                             <thead>
+                                 <tr><th>時間</th><th>病患</th><th>異常類型</th><th>數值</th><th>狀態</th></tr>
+                             </thead>
+                             <tbody>
+                                 <tr><td>10:05</td><td>王小明</td><td>Wheeze</td><td>88%</td><td><span class="badge badge-danger">危險</span></td></tr>
+                                 <tr><td>09:55</td><td>李建國</td><td>Crackles</td><td>72%</td><td><span class="badge badge-danger">危險</span></td></tr>
+                                 <tr><td>09:30</td><td>張雅婷</td><td>Wheeze</td><td>65%</td><td><span class="badge badge-warning">警示</span></td></tr>
+                             </tbody>
+                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-analytics" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-file-medical-alt"></i> 醫療大數據統計報表</h3>
+                    </div>
+                    <div class="card-body" style="text-align: center; padding: 50px;">
+                        <i class="fa-solid fa-chart-pie" style="font-size: 5rem; color: #ddd; margin-bottom: 20px;"></i>
+                        <p>本月累計分析音訊：1,204 筆</p>
+                        <p>AI 診斷準確率：94.5%</p>
+                        <button class="btn btn-primary" style="margin-top: 15px;">下載完整月報表 (PDF)</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
