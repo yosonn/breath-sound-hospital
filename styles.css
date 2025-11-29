@@ -1,6 +1,6 @@
 /* === styles.css === */
 :root {
-    --primary-color: #00497a; /* 深藍色 */
+    --primary-color: #00497a; 
     --primary-dark: #003355;
     --primary-light: #f0f4f8;
     --accent-blue: #007bff;
@@ -13,8 +13,8 @@
     
     --sidebar-width: 250px;
     --header-height: 60px;
-    --card-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    --border-radius: 10px;
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --border-radius: 12px;
 }
 
 * {
@@ -36,7 +36,7 @@ body {
     height: 100%;
 }
 
-/* --- Sidebar --- */
+/* Sidebar */
 .sidebar {
     width: var(--sidebar-width);
     background-color: var(--primary-color);
@@ -111,7 +111,7 @@ body {
 .info .name { display: block; font-weight: bold; font-size: 0.9rem; }
 .info .role { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
 
-/* --- Main Content --- */
+/* Main Content */
 .main-content {
     flex: 1;
     display: flex;
@@ -156,7 +156,7 @@ body {
     right: -2px;
 }
 
-/* --- Views Logic --- */
+/* Views Logic */
 .view-section {
     display: none;
     padding: 30px;
@@ -172,7 +172,7 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Dashboard Grid (Fixed Layout) --- */
+/* Dashboard Grid */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -180,10 +180,9 @@ body {
     margin-bottom: 20px;
 }
 
-/* New 2x2 Layout for Charts */
 .dashboard-grid-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 兩列等寬 */
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
@@ -202,12 +201,7 @@ body {
 .stat-card.red { border-left-color: var(--danger-color); }
 .stat-card.yellow { border-left-color: var(--warning-color); }
 
-.stat-card .icon {
-    font-size: 2rem;
-    margin-right: 20px;
-    opacity: 0.8;
-}
-
+.stat-card .icon { font-size: 2rem; margin-right: 20px; opacity: 0.8; }
 .stat-card.blue .icon { color: var(--accent-blue); }
 .stat-card.green .icon { color: var(--success-color); }
 .stat-card.red .icon { color: var(--danger-color); }
@@ -224,7 +218,6 @@ body {
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
     padding: 20px;
-    /* 取消 min-height，改由內部 chart-wrapper 控制 */
     display: flex;
     flex-direction: column;
 }
@@ -238,26 +231,13 @@ body {
     align-items: center;
 }
 
-.card-header h3 { font-size: 1rem; color: var(--primary-color); }
+.card-header h3 { font-size: 1rem; color: var(--primary-color); font-weight: 700; }
 
-/* --- 關鍵修復：圖表容器高度限制 --- */
-.chart-wrapper {
-    position: relative;
-    height: 300px; /* 強制高度，防止無限延伸 */
-    width: 100%;
-}
-.chart-wrapper-small {
-    position: relative;
-    height: 150px; /* 較小的圖表 */
-    width: 100%;
-}
+.chart-wrapper { position: relative; height: 300px; width: 100%; }
+.chart-wrapper-small { position: relative; height: 180px; width: 100%; }
 
 /* AI Feed */
-.feed-list {
-    overflow-y: auto;
-    height: 300px; /* 配合 chart-wrapper 的高度 */
-}
-
+.feed-list { overflow-y: auto; height: 300px; }
 .feed-item {
     padding: 10px;
     border-bottom: 1px solid #f1f1f1;
@@ -265,12 +245,11 @@ body {
     display: flex;
     align-items: flex-start;
 }
-
 .feed-item:last-child { border-bottom: none; }
 .feed-item i { margin-right: 10px; margin-top: 3px; }
 .feed-time { display: block; font-size: 0.75rem; color: #999; margin-top: 3px; }
 
-/* --- Table Styles --- */
+/* Table Styles */
 .card.table-card {
     background: white;
     border-radius: var(--border-radius);
@@ -279,10 +258,9 @@ body {
 }
 
 .flex-between { display: flex; justify-content: space-between; align-items: center; }
-
 .table-actions { display: flex; gap: 10px; }
 .search-input { padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; }
-.btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9rem; transition: 0.2s; }
+.btn { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; }
 .btn-primary { background: var(--primary-color); color: white; }
 .btn-primary:hover { background: var(--primary-dark); }
 .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
@@ -293,60 +271,194 @@ body {
 .data-table th { background: #f8f9fa; color: #555; font-weight: 600; }
 .data-table tr:hover { background: #f1f7fb; }
 
-/* Status Badges */
-.badge { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white; }
+/* Badges */
+.badge { padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white; display: inline-block;}
 .badge-success { background: var(--success-color); }
 .badge-warning { background: var(--warning-color); color: #333; }
 .badge-danger { background: var(--danger-color); }
 .badge-normal { background: #6c757d; }
 .badge-date { background: #e9ecef; color: #333; }
 
-/* --- Patient Detail Styles --- */
-.back-btn { margin-bottom: 20px; }
+/* === Patient Detail Redesign Styles === */
+.detail-top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.patient-quick-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    background: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.info-tag { font-size: 0.95rem; color: var(--primary-color); }
 
-.detail-grid {
+/* New Detail Grid */
+.detail-grid-new {
     display: grid;
-    grid-template-columns: 300px 1fr 1fr; /* 左:固定, 中右:平分 */
-    gap: 20px;
-    align-items: start; /* 避免高度被拉伸 */
+    grid-template-columns: 2fr 1fr; /* 2:1 Split */
+    gap: 25px;
 }
 
-.profile-header { display: flex; align-items: center; margin-bottom: 20px; }
-.profile-avatar { width: 60px; height: 60px; background: #e9ecef; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-right: 15px; color: var(--primary-color); }
-.profile-info p { margin-bottom: 8px; font-size: 0.95rem; }
+/* Main Console */
+.analysis-console {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+}
+.console-body { padding: 25px; }
 
-.mini-history-list { list-style: none; padding: 0; margin-top: 10px; }
-.mini-history-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #eee; font-size: 0.9rem; }
-
-.audio-control-panel { margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; }
-.pos-toggles { display: flex; gap: 10px; margin-bottom: 10px; }
-.pos-btn { flex: 1; padding: 6px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer; }
-.pos-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
-.audio-player { width: 100%; height: 35px; }
-
-.spectrogram-placeholder {
-    height: 150px;
-    background: linear-gradient(180deg, #001f3f 0%, #007bff 50%, #001f3f 100%);
+/* Position Selector (Segmented Control) */
+.position-selector {
+    display: flex;
+    background: #e9ecef;
+    padding: 4px;
     border-radius: 8px;
-    margin-bottom: 20px;
+}
+.pos-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 15px;
+    font-size: 0.9rem;
+    color: #666;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.pos-btn:hover { color: #333; }
+.pos-btn.active {
+    background: white;
+    color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Spectrogram Visualizer */
+.visualizer-container {
+    margin-bottom: 30px;
+    position: relative;
+}
+.spectrogram-visual {
+    height: 180px;
+    background: #111;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
+}
+/* CSS Texture to simulate spectrogram */
+.freq-lines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0),
+        rgba(0,0,0,0) 2px,
+        rgba(40, 167, 69, 0.2) 3px,
+        rgba(40, 167, 69, 0.5) 4px
+    );
+    opacity: 0.6;
+}
+.time-marker {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 2px;
+    background: #ffc107;
+    animation: scan 4s linear infinite;
+    z-index: 5;
+}
+@keyframes scan { 0% { left: 0; } 100% { left: 100%; } }
+
+.loading-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    font-size: 1.1rem;
+    gap: 10px;
 }
 
-.spec-overlay { color: rgba(255,255,255,0.7); font-size: 0.9rem; z-index: 2; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 4px;}
+.full-width-audio { width: 100%; }
 
-.ai-result-box {
-    border: 1px solid #eee;
+/* AI Dashboard Stats (Circular) */
+.ai-dashboard-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+.ai-stat-box {
+    text-align: center;
+    width: 100px;
+}
+.ai-stat-box .label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+/* SVG Circle Chart */
+.circle-chart {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+.circular-chart { display: block; margin: 0 auto; max-width: 80%; max-height: 250px; }
+.circle-bg { fill: none; stroke: #eee; stroke-width: 3.8; }
+.circle { fill: none; stroke-width: 2.8; stroke-linecap: round; transition: stroke-dasharray 1s ease; }
+.percentage {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+.circular-chart.green .circle { stroke: var(--success-color); }
+.circular-chart.yellow .circle { stroke: var(--warning-color); }
+.circular-chart.red .circle { stroke: var(--danger-color); }
+
+/* AI Summary Box */
+.ai-summary-alert {
+    display: flex;
+    gap: 15px;
+    background: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
-    background: #fff;
+    border-left: 5px solid var(--primary-color);
 }
+.alert-icon { font-size: 1.5rem; color: var(--primary-color); display: flex; align-items: center; }
+.alert-text h4 { margin-bottom: 5px; font-size: 1rem; }
+.alert-text p { font-size: 0.95rem; color: #555; line-height: 1.5; }
 
-.result-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
-.summary-text { font-size: 0.95rem; line-height: 1.5; color: #444; margin-bottom: 15px; }
+/* Side Panel Info */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 0.95rem;
+}
+.info-row .label { color: #888; }
+.info-row .val { font-weight: 600; color: #333; }
+.mb-20 { margin-bottom: 20px; }
+.mini-history-list { list-style: none; padding: 0; }
+.mini-history-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f1f1; font-size: 0.9rem; }
+.card.mb-20 { margin-bottom: 20px; }
 
 .alert-banner {
     background-color: #f8d7da;
@@ -359,20 +471,15 @@ body {
     gap: 10px;
 }
 
-/* 響應式調整 */
+/* RWD */
 @media (max-width: 1024px) {
-    .dashboard-grid-layout { grid-template-columns: 1fr; } /* 平板以下變單欄 */
-    .detail-grid { grid-template-columns: 1fr 1fr; }
-    .detail-col-left { grid-column: span 2; }
+    .dashboard-grid-layout { grid-template-columns: 1fr; }
+    .detail-grid-new { grid-template-columns: 1fr; }
 }
-
 @media (max-width: 768px) {
     .app-container { flex-direction: column; height: auto; }
     .sidebar { width: 100%; height: auto; }
     .sidebar-nav { display: flex; padding: 10px; overflow-x: auto; }
     .nav-item span { display: none; }
     .nav-item i { margin: 0; width: 40px; font-size: 1.2rem; }
-    
-    .detail-grid { grid-template-columns: 1fr; }
-    .detail-col-left, .detail-col-center, .detail-col-right { grid-column: span 1; }
 }
